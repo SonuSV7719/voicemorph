@@ -1,6 +1,6 @@
 # Lightweight API image — no GPU, no ML stack. Serves REST + WebSocket and
 # dispatches heavy work to the GPU worker via Celery.
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 # ffmpeg is needed by the media layer (extract/remux).
 RUN apt-get update \
