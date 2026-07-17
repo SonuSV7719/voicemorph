@@ -2,10 +2,11 @@ import { useMemo, useState } from "react";
 import { VoiceMorphClient } from "./api/client";
 import { useConfig } from "./config";
 import { BatchConvert } from "./views/BatchConvert";
+import { LiveConvert } from "./views/LiveConvert";
 import { ServerConfigView } from "./views/ServerConfig";
 import { VoiceLibrary } from "./views/VoiceLibrary";
 
-type Tab = "convert" | "voices" | "server";
+type Tab = "convert" | "live" | "voices" | "server";
 
 export function App() {
   const [config, setConfig] = useConfig();
@@ -29,6 +30,13 @@ export function App() {
             Convert
           </button>
           <button
+            className={tab === "live" ? "active" : ""}
+            onClick={() => setTab("live")}
+            disabled={!configured}
+          >
+            Live
+          </button>
+          <button
             className={tab === "voices" ? "active" : ""}
             onClick={() => setTab("voices")}
             disabled={!configured}
@@ -46,6 +54,8 @@ export function App() {
           <div className="empty">Configure a server first.</div>
         ) : tab === "convert" ? (
           <BatchConvert client={client} />
+        ) : tab === "live" ? (
+          <LiveConvert client={client} config={config} />
         ) : tab === "voices" ? (
           <VoiceLibrary client={client} />
         ) : (

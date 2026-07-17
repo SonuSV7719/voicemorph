@@ -44,7 +44,9 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 - [ ] Warm model pool / LRU eviction under load (M5 hardening on GPU)
 
 ## M6 — Desktop live mode
-- [ ] Mic capture → stream → converted output; virtual audio device routing
+- [x] Mic capture (AudioWorklet) → WebSocket stream → converted playback (AudioWorklet)
+- [x] Live view wired into the desktop app (voice selector, start/stop, status)
+- [ ] Virtual audio device routing (output to a VB-Cable-style device for calls/streaming)
 
 ## M7 — Mobile app  ⬅ in progress
 - [x] React Native (Expo) + TS shell; server-config screen (test connection)

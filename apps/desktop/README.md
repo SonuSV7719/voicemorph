@@ -11,7 +11,9 @@ HTTP (batch) — a local bundled server, a LAN machine, or a cloud endpoint.
 - **Convert** — drag-and-drop an audio/video file, pick a target voice, convert,
   track progress, and download the result (audio→audio, video→video).
 
-Live mic mode + virtual-audio-device routing is M6.
+- **Live** — real-time mic conversion: AudioWorklet capture → backend WebSocket
+  → AudioWorklet playback. Virtual-audio-device routing (for calls/streaming) is
+  a follow-up.
 
 ## Develop
 
