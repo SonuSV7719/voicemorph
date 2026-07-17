@@ -59,8 +59,36 @@ class StreamSession:
     def push(self, chunk: np.ndarray) -> None:
         self._in.put(np.asarray(chunk, dtype=np.float32))
 
+    def receive(self, timeout: float = 5.0) -> list[np.ndarray]:
+        """Block up to ``timeout`` for the next converted chunk, then drain extras.
+
+        Backends yield at least one output chunk per input chunk (1:1 for the
+        RVC and passthrough converters), so this returns the converted audio for
+        the chunk just pushed. A backend that buffers may emit several at once —
+        all currently-available chunks are returned. A timeout returns ``[]``.
+        """
+        out: list[np.ndarray] = []
+        try:
+            first = self._out.get(timeout=timeout)
+        except queue.Empty:
+            first = None
+        if first is not None and first is not _SENTINEL:
+            out.append(first)
+        # Drain any further chunks already produced.
+        while True:
+            try:
+                item = self._out.get_nowait()
+            except queue.Empty:
+                break
+            if item is _SENTINEL:
+                break
+            out.append(item)
+        if self._error:
+            raise self._error
+        return out
+
     def drain(self) -> list[np.ndarray]:
-        """Return any converted chunks available right now (non-blocking)."""
+        """Non-blocking: return converted chunks available right now."""
         out: list[np.ndarray] = []
         while True:
             try:

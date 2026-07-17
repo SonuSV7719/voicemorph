@@ -25,6 +25,7 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from starlette.concurrency import run_in_threadpool
 from voicemorph_engine.backends import get_backend
 from voicemorph_engine.backends.base import ConversionParams, StreamConfig
 from voicemorph_engine.errors import ProfileNotFoundError, VoiceMorphError
@@ -222,16 +223,15 @@ def create_app() -> FastAPI:
             while True:
                 data = await ws.receive_bytes()
                 session.push(bytes_to_float32(data))
-                for out in session.drain():
+                # Block for the converted chunk(s) off the event loop.
+                for out in await run_in_threadpool(session.receive):
                     await ws.send_bytes(float32_to_bytes(out))
         except WebSocketDisconnect:
             pass
         finally:
-            try:
-                for out in session.close():
+            with contextlib.suppress(Exception):
+                for out in await run_in_threadpool(session.close):
                     await ws.send_bytes(float32_to_bytes(out))
-            except Exception:
-                pass
 
     return app
 

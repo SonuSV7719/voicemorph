@@ -36,8 +36,12 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 - [ ] macOS/Linux target builds
 
 ## M5 — Real-time streaming (backend)
-- [ ] `WS /convert/stream/{voice_id}`, chunked inference, warm model pool
-- [ ] Latency budget ≤ ~300 ms on consumer GPU; RTF metrics
+- [x] `WS /convert/stream/{voice_id}` — chunked inference, resident model, threaded convert bridge
+- [x] 1:1 chunk contract with blocking receive (off the event loop); crossfade seam smoothing
+- [x] End-to-end WS test (identity via passthrough) + bad-key rejection
+- [x] Example streaming client (`examples/stream_client.py`) documenting the wire format
+- [ ] Latency budget ≤ ~300 ms on consumer GPU; RTF metrics (needs GPU + real RVC)
+- [ ] Warm model pool / LRU eviction under load (M5 hardening on GPU)
 
 ## M6 — Desktop live mode
 - [ ] Mic capture → stream → converted output; virtual audio device routing
