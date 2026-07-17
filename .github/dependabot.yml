@@ -107,10 +107,12 @@ updates:
       interval: weekly
     open-pull-requests-limit: 5
     labels: ["dependencies", "docker"]
-    # CUDA / Python base image majors are infra decisions — do them by hand.
     groups:
       docker:
         patterns: ["*"]
+    # CUDA / Python base-image major AND minor bumps are infra decisions (they
+    # must match the torch/CUDA build) — do them by hand; only patch auto-bumps.
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
