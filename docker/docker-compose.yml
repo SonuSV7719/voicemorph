@@ -1,0 +1,79 @@
+# Local production-shaped stack: API + GPU worker + Redis (broker) + MinIO (S3).
+# Build context is the repo root so the Dockerfiles can COPY engine/media/backend.
+#
+#   docker compose -f docker/docker-compose.yml up --build
+#
+# The worker service needs an NVIDIA GPU + NVIDIA Container Toolkit. On a machine
+# without a GPU, comment out the `worker` service and set the API to eager mode
+# (VOICEMORPH_JOB_MODE=eager) for a CPU-only smoke test.
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/api.Dockerfile
+    depends_on:
+      - redis
+      - minio
+    environment:
+      VOICEMORPH_API_KEY: ${VOICEMORPH_API_KEY:-change-me}
+      VOICEMORPH_JOB_MODE: celery
+      VOICEMORPH_REDIS_URL: redis://redis:6379/0
+      VOICEMORPH_STORAGE_BACKEND: s3
+      VOICEMORPH_S3_ENDPOINT: http://minio:9000
+      VOICEMORPH_S3_ACCESS_KEY: ${S3_ACCESS_KEY:-minioadmin}
+      VOICEMORPH_S3_SECRET_KEY: ${S3_SECRET_KEY:-minioadmin}
+      VOICEMORPH_S3_BUCKET: voicemorph
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/inference.Dockerfile
+    depends_on:
+      - redis
+      - minio
+    environment:
+      VOICEMORPH_JOB_MODE: celery
+      VOICEMORPH_ENGINE_BACKEND: rvc
+      VOICEMORPH_DEVICE: cuda:0
+      VOICEMORPH_REDIS_URL: redis://redis:6379/0
+      VOICEMORPH_STORAGE_BACKEND: s3
+      VOICEMORPH_S3_ENDPOINT: http://minio:9000
+      VOICEMORPH_S3_ACCESS_KEY: ${S3_ACCESS_KEY:-minioadmin}
+      VOICEMORPH_S3_SECRET_KEY: ${S3_SECRET_KEY:-minioadmin}
+      VOICEMORPH_S3_BUCKET: voicemorph
+    volumes:
+      # Mount RVC weights (RMVPE + pretrained bases) into the engine models dir.
+      - ${VOICEMORPH_MODELS:-./models}:/root/.voicemorph/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  redis-data:
+  minio-data:

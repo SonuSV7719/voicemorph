@@ -18,11 +18,14 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 - [ ] Video in → audio extracted → converted → remuxed; video stream bit-identical, subs/metadata preserved, duration within tolerance
 - [ ] Golden-file tests for common containers (mp4/mov/mkv)
 
-## M3 — Backend batch API + job queue
-- [ ] FastAPI service, API-key auth
-- [ ] Celery + Redis job queue, MinIO storage
-- [ ] `POST /voices`, `GET /voices/{id}/status`, `POST /convert/batch`, `GET /convert/batch/{job_id}`
-- [ ] Docker images (GPU worker + light API) + compose
+## M3 — Backend batch API + job queue  ⬅ in progress
+- [x] FastAPI service, API-key auth
+- [x] Celery + Redis job queue (eager fallback for dev), S3/MinIO + local storage
+- [x] `POST /voices`, `GET /voices/{id}/status`, `POST /convert/batch`, `GET /convert/batch/{job_id}` (+ `/download`)
+- [x] Docker images (GPU worker + light API) + compose
+- [x] `passthrough` engine backend so the full pipeline is CPU-testable end-to-end
+- [x] End-to-end API test: create → train → convert → download (CPU)
+- [ ] Streaming WS hardened + load-tested (overlaps with M5)
 
 ## M4 — Desktop app (batch)
 - [ ] Tauri + React/TS shell; server-config screen

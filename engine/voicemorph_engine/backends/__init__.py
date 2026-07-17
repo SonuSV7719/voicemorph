@@ -24,6 +24,11 @@ def get_backend(config: EngineConfig) -> VoiceConversionBackend:
         from voicemorph_engine.backends.rvc import RVCBackend
 
         return RVCBackend(config)
+    if backend_id == "passthrough":
+        # Identity backend for dev/CI/testing — performs no voice conversion.
+        from voicemorph_engine.backends.passthrough import PassthroughBackend
+
+        return PassthroughBackend(config)
     raise BackendUnavailableError(f"Unknown backend id: {config.backend!r}")
 
 
