@@ -1,0 +1,44 @@
+name: Release Mobile (Android)
+
+# Builds the Android APK (preview) and AAB (production) via Expo EAS on a
+# version tag. Requires an EXPO_TOKEN repo secret (Expo access token). EAS runs
+# the build on Expo's infrastructure and stores the artifacts there; the job
+# prints the artifact URLs.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "EAS build profile"
+        default: "preview"
+        type: choice
+        options: [preview, production]
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        working-directory: apps/mobile
+        run: npm ci
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: EAS build (Android)
+        working-directory: apps/mobile
+        run: |
+          eas build --platform android \
+            --profile "${{ github.event.inputs.profile || 'preview' }}" \
+            --non-interactive --no-wait

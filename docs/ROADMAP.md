@@ -57,5 +57,7 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 - [ ] Signed `.apk` / `.aab` via EAS (needs Expo account / Android SDK)
 
 ## M8 — Packaging, signing, distribution
-- [ ] Code-signing (Windows), Play-signing (Android)
-- [ ] Release CI/CD, versioned artifacts
+- [x] Release CI: desktop installers via tauri-action (win/mac/linux) on `vX.Y.Z` tag
+- [x] Release CI: Android APK/AAB via Expo EAS on tag
+- [x] Release guide (`docs/RELEASE.md`): signing secrets, icons, versioning
+- [ ] Provision signing certs/keystores (Windows Authenticode, Apple notarization, Play keystore)
