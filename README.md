@@ -1,6 +1,11 @@
 <div align="center">
 
-# 🎙️ VoiceMorph
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
+  <img alt="VoiceMorph" src="./assets/logo-light.svg" width="440">
+</picture>
+
+# VoiceMorph
 
 **Enterprise-grade, cross-platform voice conversion — speech-to-speech, not text-to-speech.**
 
