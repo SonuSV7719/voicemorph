@@ -1,6 +1,8 @@
 # Contributing to VoiceMorph
 
 Thanks for helping build VoiceMorph. A few ground rules keep the project healthy.
+By participating you agree to our [Code of Conduct](CODE_OF_CONDUCT.md). For the
+full developer setup see [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md).
 
 ## Ethics first
 

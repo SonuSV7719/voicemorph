@@ -1,0 +1,69 @@
+name: 🐛 Bug report
+description: Report a reproducible problem in VoiceMorph
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! Please search existing issues first.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - engine
+        - media
+        - backend
+        - desktop
+        - mobile
+        - docker / infra
+        - docs
+        - not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands / actions. A minimal repro helps a lot.
+      placeholder: |
+        1. Start backend with `...`
+        2. POST /convert/batch with `...`
+        3. See error `...`
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Paste logs/tracebacks. **Scrub secrets and personal data first.**
+      render: shell
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python, Node, GPU (if any), commit/tag, engine backend (passthrough/rvc).
+      placeholder: |
+        OS: Windows 11
+        Python: 3.11.9
+        GPU: none (passthrough)
+        Commit: abc1234
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Confirmation
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: This is a software bug, not a request for help cloning a voice I don't have rights to.
+          required: true

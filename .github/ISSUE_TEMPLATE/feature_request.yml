@@ -1,0 +1,45 @@
+name: 💡 Feature request
+description: Suggest an idea or enhancement for VoiceMorph
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do, and what's missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like to see? Sketch the API/UX if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - engine
+        - media
+        - backend
+        - desktop
+        - mobile
+        - docker / infra
+        - docs
+        - cross-cutting
+    validations:
+      required: true
+  - type: checkboxes
+    id: ethics
+    attributes:
+      label: Responsible use
+      options:
+        - label: This request does not aim to enable non-consensual cloning, impersonation, or auth bypass.
+          required: true
