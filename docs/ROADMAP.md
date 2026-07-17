@@ -27,10 +27,13 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 - [x] End-to-end API test: create → train → convert → download (CPU)
 - [ ] Streaming WS hardened + load-tested (overlaps with M5)
 
-## M4 — Desktop app (batch)
-- [ ] Tauri + React/TS shell; server-config screen
-- [ ] Voice-profile library UI; drag-and-drop convert; preview/download
-- [ ] `.exe` installer build (+ macOS/Linux targets)
+## M4 — Desktop app (batch)  ⬅ in progress
+- [x] Tauri v2 + React/TS shell; server-config screen (test connection)
+- [x] Typed backend API client (mirrors backend schemas)
+- [x] Voice-profile library UI (consent-gated create + status polling)
+- [x] Drag-and-drop batch convert; progress; download (audio/video)
+- [ ] Icons + `.exe`/`.msi` installer build verified (needs Rust/WebView2 + icon assets)
+- [ ] macOS/Linux target builds
 
 ## M5 — Real-time streaming (backend)
 - [ ] `WS /convert/stream/{voice_id}`, chunked inference, warm model pool
