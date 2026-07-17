@@ -1,0 +1,21 @@
+# Normalize line endings: LF in the repo for text; tools handle checkout.
+* text=auto eol=lf
+
+# Binary assets — never normalize.
+*.pth binary
+*.ckpt binary
+*.onnx binary
+*.index binary
+*.pt binary
+*.bin binary
+*.safetensors binary
+*.wav binary
+*.mp3 binary
+*.flac binary
+*.mp4 binary
+*.mov binary
+*.mkv binary
+*.png binary
+*.jpg binary
+*.keystore binary
+*.jks binary

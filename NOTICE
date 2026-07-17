@@ -1,0 +1,32 @@
+VoiceMorph
+Copyright 2026 SonuSV7719 and VoiceMorph contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this software except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+================================================================================
+ETHICAL-USE NOTICE (binding condition of use)
+================================================================================
+
+VoiceMorph is a voice-conversion system. It converts the vocal identity of
+existing spoken audio; it does not fabricate speech content.
+
+By using this software you agree that:
+
+  1. You will only create a target voice profile from a voice that is your own,
+     or a voice for which you hold explicit, documented consent from the person
+     whose voice it is.
+
+  2. You will not use VoiceMorph to impersonate any person without their
+     consent, to defraud or deceive, or to bypass or defeat any voice-based
+     authentication or identity-verification system.
+
+  3. You will comply with all applicable laws and platform policies regarding
+     synthetic media, likeness rights, and biometric data.
+
+The authors and contributors provide this software for legitimate, consented
+uses such as dubbing, accessibility, localization, and creative production, and
+disclaim responsibility for misuse. See docs/ETHICS.md for details.

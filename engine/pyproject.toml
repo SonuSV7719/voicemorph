@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "voicemorph-engine"
+version = "0.1.0"
+description = "VoiceMorph core voice-conversion engine (RVC training + batch/streaming inference)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "SonuSV7719 and VoiceMorph contributors" }]
+keywords = ["voice-conversion", "rvc", "speech-to-speech", "rmvpe"]
+
+# Light dependencies only — always installable, no GPU required.
+# The heavy ML stack lives in the [ml] extra so the package (and media/CLI
+# skeleton) imports on any interpreter without torch/onnx present.
+dependencies = [
+    "numpy>=1.24",
+    "soundfile>=0.12",
+    "pydantic>=2.6",
+    "typer>=0.12",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+# Full RVC inference/training stack. Pin to a Python 3.10/3.11 environment.
+ml = [
+    "torch>=2.1",
+    "torchaudio>=2.1",
+    "librosa>=0.10",
+    "faiss-cpu>=1.7; platform_system!='Linux'",
+    "rvc-python>=0.1.5",   # RVC-Project pip package; swap for WebUI repo if insufficient
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+voicemorph = "voicemorph_engine.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["voicemorph_engine"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# Typer's function-default Argument/Option calls are the intended idiom.
+"**/cli.py" = ["B008"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

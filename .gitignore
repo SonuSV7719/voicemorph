@@ -1,0 +1,88 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Node / JS / TS ----
+node_modules/
+.pnp/
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.turbo/
+dist/
+.cache/
+
+# ---- Tauri / Rust ----
+apps/desktop/src-tauri/target/
+target/
+Cargo.lock.orig
+
+# ---- React Native / Android ----
+apps/mobile/android/app/build/
+apps/mobile/android/.gradle/
+apps/mobile/android/local.properties
+apps/mobile/ios/Pods/
+*.keystore
+*.jks
+
+# ---- ML model weights & data (never commit; large + sensitive) ----
+*.pth
+*.ckpt
+*.onnx
+*.index
+*.pt
+*.bin
+*.safetensors
+engine/models/pretrained/
+engine/models/rmvpe/
+data/
+datasets/
+voice_profiles/
+artifacts/
+
+# ---- Media working files ----
+*.wav
+*.mp3
+*.flac
+*.mp4
+*.mov
+*.mkv
+!docs/**/*.wav
+tmp/
+*.tmp
+
+# ---- Secrets & env ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ---- Infra / local state ----
+.minio-data/
+.redis-data/
+.docker-data/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.swp
