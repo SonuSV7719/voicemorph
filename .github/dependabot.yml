@@ -1,51 +1,116 @@
 version: 2
+
+# Conservative policy: one grouped PR per ecosystem per week, and skip major
+# version bumps (open those intentionally). Keeps the PR queue small and avoids
+# risky jumps like React Native / Expo majors landing unreviewed.
+
 updates:
-  # Python packages (engine / media / backend)
+  # ---- Python ----
   - package-ecosystem: pip
     directory: /engine
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "python"]
+    groups:
+      engine:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
   - package-ecosystem: pip
     directory: /media
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "python"]
+    groups:
+      media:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
   - package-ecosystem: pip
     directory: /backend
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "python"]
+    groups:
+      backend:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
-  # JS/TS clients
+  # ---- JS/TS clients ----
   - package-ecosystem: npm
     directory: /apps/desktop
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "javascript"]
+    groups:
+      desktop:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
   - package-ecosystem: npm
     directory: /apps/mobile
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "javascript"]
+    groups:
+      mobile:
+        patterns: ["*"]
+    # Expo/React Native versions are coupled to the SDK — bump them deliberately
+    # via `expo install` / SDK upgrades, so ignore major AND minor here.
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          ["version-update:semver-major", "version-update:semver-minor"]
 
-  # Rust (Tauri shell)
+  # ---- Rust (Tauri shell) ----
   - package-ecosystem: cargo
     directory: /apps/desktop/src-tauri
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "rust"]
+    groups:
+      tauri:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
-  # GitHub Actions
+  # ---- GitHub Actions ----
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "ci"]
+    groups:
+      actions:
+        patterns: ["*"]
 
-  # Docker base images
+  # ---- Docker base images ----
   - package-ecosystem: docker
     directory: /docker
     schedule:
       interval: weekly
+    open-pull-requests-limit: 5
     labels: ["dependencies", "docker"]
+    # CUDA / Python base image majors are infra decisions — do them by hand.
+    groups:
+      docker:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
