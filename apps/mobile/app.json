@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "VoiceMorph",
+    "slug": "voicemorph",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "voicemorph",
+    "android": {
+      "package": "tech.xalta.voicemorph",
+      "versionCode": 1,
+      "permissions": ["INTERNET", "RECORD_AUDIO", "READ_EXTERNAL_STORAGE"]
+    },
+    "ios": {
+      "bundleIdentifier": "tech.xalta.voicemorph",
+      "supportsTablet": true
+    },
+    "plugins": ["expo-document-picker"],
+    "extra": {
+      "eas": {}
+    }
+  }
+}

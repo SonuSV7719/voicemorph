@@ -46,10 +46,13 @@ Ordered by the build priorities in the master prompt. Each milestone is a vertic
 ## M6 — Desktop live mode
 - [ ] Mic capture → stream → converted output; virtual audio device routing
 
-## M7 — Mobile app
-- [ ] React Native: record/import target, batch convert, save result
+## M7 — Mobile app  ⬅ in progress
+- [x] React Native (Expo) + TS shell; server-config screen (test connection)
+- [x] Typed backend client (RN FormData uploads); AsyncStorage config
+- [x] Voice library (consent-gated create via document picker, status polling)
+- [x] Batch convert (pick audio/video, convert, save result to device)
 - [ ] Live mode over WebSocket
-- [ ] Signed `.apk` / `.aab`
+- [ ] Signed `.apk` / `.aab` via EAS (needs Expo account / Android SDK)
 
 ## M8 — Packaging, signing, distribution
 - [ ] Code-signing (Windows), Play-signing (Android)
