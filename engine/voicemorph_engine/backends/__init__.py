@@ -16,10 +16,16 @@ from voicemorph_engine.errors import BackendUnavailableError
 def get_backend(config: EngineConfig) -> VoiceConversionBackend:
     """Resolve and instantiate the configured backend.
 
-    Kept as a small factory so alternative backends (e.g. a future so-vits-svc
-    or seed-vc backend) can be registered without changing call sites.
+    ``config.backend == "auto"`` selects the best installed backend for the
+    detected hardware (GPU→rvc, else a fast CPU backend); any other value is an
+    explicit manual override. Kept as a small factory so alternative backends
+    can be registered without changing call sites.
     """
     backend_id = config.backend.lower()
+    if backend_id == "auto":
+        from voicemorph_engine.hardware import detect_device, recommend_backend
+
+        backend_id = recommend_backend(detect_device(config.device))
     if backend_id == "rvc":
         from voicemorph_engine.backends.rvc import RVCBackend
 
@@ -29,6 +35,11 @@ def get_backend(config: EngineConfig) -> VoiceConversionBackend:
         from voicemorph_engine.backends.passthrough import PassthroughBackend
 
         return PassthroughBackend(config)
+    if backend_id == "speecht5":
+        # Zero-shot CPU voice conversion (Microsoft SpeechT5-VC). No training.
+        from voicemorph_engine.backends.speecht5 import SpeechT5Backend
+
+        return SpeechT5Backend(config)
     raise BackendUnavailableError(f"Unknown backend id: {config.backend!r}")
 
 

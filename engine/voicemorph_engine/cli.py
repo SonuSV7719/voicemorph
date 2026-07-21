@@ -227,5 +227,31 @@ def convert(
     console.print(f"[green]Wrote[/green] {output} ({result.kind}, {result.duration:.2f}s)")
 
 
+# --------------------------------------------------------------------------
+# info (hardware + auto-selected backend)
+# --------------------------------------------------------------------------
+
+@app.command()
+def info():
+    """Show detected hardware and the backend VoiceMorph would auto-select."""
+    from voicemorph_engine.hardware import probe
+
+    cfg = _config()
+    hw = probe(cfg.device)
+    table = Table(title="VoiceMorph hardware")
+    table.add_column("property")
+    table.add_column("value")
+    table.add_row("device (resolved)", hw.device)
+    table.add_row("CUDA GPU", "✓ " + (hw.gpu or "") if hw.cuda else "✗ (CPU only)")
+    table.add_row("configured backend", cfg.backend)
+    table.add_row("auto → backend", hw.recommended_backend)
+    table.add_row("available backends", ", ".join(hw.available_backends) or "-")
+    console.print(table)
+    console.print(
+        "[dim]Override with --device / VOICEMORPH_DEVICE and "
+        "VOICEMORPH_ENGINE_BACKEND (e.g. rvc, freevc, speecht5, passthrough).[/dim]"
+    )
+
+
 if __name__ == "__main__":
     app()

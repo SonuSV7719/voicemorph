@@ -32,6 +32,18 @@ ml = [
     "faiss-cpu>=1.7; platform_system!='Linux'",
     "rvc-python>=0.1.5",   # RVC-Project pip package; swap for WebUI repo if insufficient
 ]
+# Zero-shot CPU voice conversion via Microsoft SpeechT5-VC (no fairseq → works
+# on Python 3.13). No per-voice training; a target x-vector is derived from the
+# reference audio. Runs on CPU.
+speecht5 = [
+    "torch>=2.2",
+    "torchaudio>=2.2",
+    "transformers>=4.40",
+    "sentencepiece>=0.2",   # SpeechT5 processor tokenizer
+    "soundfile>=0.12",
+    # Speaker embedding uses transformers' WavLMForXVector (microsoft/wavlm-base-plus-sv)
+    # — no speechbrain, so no k2/torchcodec native-dep issues on Windows.
+]
 dev = [
     "pytest>=8.0",
     "pytest-cov>=5.0",

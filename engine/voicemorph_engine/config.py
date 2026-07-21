@@ -41,7 +41,10 @@ class EngineConfig(BaseModel):
     root: Path = Field(default_factory=_default_root)
     device: str = Field(default="auto", description="auto | cuda | cuda:N | cpu")
     sample_rate: int = CANONICAL_SAMPLE_RATE
-    backend: str = Field(default="rvc", description="voice-conversion backend id")
+    backend: str = Field(
+        default="auto",
+        description="auto (detect hardware) | rvc | speecht5 | passthrough",
+    )
 
     @property
     def profiles_dir(self) -> Path:
