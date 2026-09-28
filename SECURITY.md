@@ -19,7 +19,7 @@ Report privately via one of:
 
 1. **GitHub Security Advisories** — [open a draft advisory](https://github.com/SonuSV7719/voicemorph/security/advisories/new)
    (preferred).
-2. **Email** — **sonu.vishwakarma@xalta.tech** with subject `VoiceMorph security`.
+2. **Email** — **sonuportfolio77@gmail.com** with subject `VoiceMorph security`.
 
 Please include:
 
